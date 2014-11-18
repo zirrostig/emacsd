@@ -20,6 +20,7 @@
 (defvar my-packages
   '(auctex
     auto-complete
+    auto-complete-clang-async
     auto-complete-c-headers
     auto-highlight-symbol
     color-identifiers-mode
@@ -36,6 +37,7 @@
     evil-surround
     evil-tabs
     evil-visualstar
+    expand-region
     flycheck
     haskell-mode
     helm

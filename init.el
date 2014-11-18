@@ -218,10 +218,12 @@
   "cn" 'mc/mark-next-like-this
   "cp" 'mc/mark-previous-like-this
   "ca" 'mc/mark-all-like-this
+
+  ; Expand-Region
+  "v" 'er/expand-region
   )
 
 ;; EVIL Bindings
-(evil-define-key 'normal emacs-lisp-mode-map (kbd "K") 'elisp-slime-nav-describe-elisp-thing-at-point)
 ; Swap v and C-v, block-visual is much more useful
 (define-key evil-normal-state-map (kbd "v") 'evil-visual-block)
 (define-key evil-normal-state-map (kbd "C-v") 'evil-visual-char)
