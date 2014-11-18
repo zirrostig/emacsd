@@ -1,15 +1,15 @@
 ;;; -*- mode: lisp -*-
 
+;;; External Files
 ;; Customize BS
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
 ;; Load my-packages for require
 (add-to-list 'load-path "~/.emacs.d/my-packages")
+(require 'my-packages)
 
-;; Set Font
-(set-face-attribute 'default nil :font "Inconsolatazi4-12")
-
+;;; Turn off a bunch of stuff
 ;; Turn menu/scroll/tool bars off
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -21,35 +21,7 @@
 ;; Turn of backup files
 (setq make-backup-files nil)
 
-;; Turn on column number
-(column-number-mode t)
-
-;; Unified Diffs
-(setq diff-switches "-u")
-
-;; Show matching paren
-(show-paren-mode t)
-
-;; Highlight current line
-(add-hook 'after-init-hook 'global-hl-line-mode)
-
-;; Scrolling Steps
-(setq scroll-step 10)
-
-;; Awesomeness for gdb-mode
-(setq gdb-many-windows t)
-
-;; No Tab Characters
-(setq-default indent-tabs-mode nil)
-(setq tab-width 4)
-
-;; Frame Title
-;; CHANGEME: Someday
-(setq frame-title-format (concat "%b - emacs@" (system-name)))
-
-; Xterm-Mouse (Mostly for scrolling)
-(xterm-mouse-mode t)
-
+;;; Looks
 ;; Theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/tomorrow-theme")
 (add-to-list 'load-path "~/.emacs.d/themes/tomorrow-theme")(menu-bar-mode -1)
@@ -66,30 +38,57 @@
 
 (add-hook 'window-setup-hook 'on-after-init)
 
-;; Relative Line Numbers
-(global-linum-mode t)
-(require 'relative-linum)
+;; Set Font
+(set-face-attribute 'default nil :font "Inconsolatazi4-12")
+
+;;; Display more information
+;; Turn on column number
+(column-number-mode t)
+
+;; Show matching paren
+(show-paren-mode t)
+
+;; Highlight current line
+(add-hook 'after-init-hook 'global-hl-line-mode)
+
+;; Frame Title
+;; CHANGEME: Someday
+(setq frame-title-format (concat "%b - emacs@" (system-name)))
 
 ;; Whitespace
 (add-hook 'after-init-hook 'global-whitespace-mode)
 (setq whitespace-style (list 'face 'trailing 'tabs))
 
-;;; ------------------
-;;; Language Specific
-;;; ------------------
+;; (Relative) Line Numbers
+(global-linum-mode t)
+(require 'relative-linum)
 
-;;; C
+;;; Other things
+;; Unified Diffs
+(setq diff-switches "-u")
+
+;; Scrolling Steps
+(setq scroll-step 10)
+
+;; Awesomeness for gdb-mode
+(setq gdb-many-windows t)
+
+;; No Tab Characters, spaces only
+(setq-default indent-tabs-mode nil)
+(setq tab-width 4)
+
+; Xterm-Mouse (Mostly for scrolling)
+(xterm-mouse-mode t)
+
+;;; Language Specific
+;; C
 (setq-default c-basic-offset 4
               c-default-style "k&r")
 
-;;; Perl
+;; Perl
 (defvaralias 'cperl-indent-level 'tab-width)
 
-;;; ---------
 ;;; Plugins
-;;; ---------
-(require 'my-packages)
-
 ;; Auto-complete
 (defun my:ac-c-headers-init ()
   (require 'auto-complete-c-headers)
@@ -153,75 +152,81 @@
 ;; Undo-tree
 (global-undo-tree-mode)
 
-;;; ------------
 ;;; EVIL Stuff
-;;; ------------
-;;; NEED EVIL
 (evil-mode 1)
 
-;;; Evil-Matchit
+;; Evil-Matchit
 (global-evil-matchit-mode 1)
 
-;;; Evil-Exchange
+;; Evil-Exchange
 (setq evil-exchange-key (kbd "gx"))
 (evil-exchange-install)
 
-;;; Evil-Surround
+;; Evil-Surround
 (global-evil-surround-mode 1)
 
-;;; Evil-Tabs
+;; Evil-Tabs
 ;(global-evil-tabs-mode t)
 
-;;; Evil-Leader
+;; Evil-Leader
 (global-evil-leader-mode)
 (evil-leader/set-leader ",")
 (evil-leader/set-key
-  ;; Emacs Shortcuts
+  ; Emacs Shortcuts
   "m" 'execute-extended-command
   "hf" 'describe-function
   "hv" 'describe-variable
+  "hk" 'describe-key
 
-  ;; Window Controls
+  ; Window Controls
   "ww" 'evil-window-next
   "wh" 'evil-window-left
   "wj" 'evil-window-down
   "wk" 'evil-window-up
   "wl" 'evil-window-right
 
-  ;; Splits
+  ; Splits
   "sv" 'evil-window-vsplit
   "sh" 'evil-window-split
   "sc" 'evil-quit
 
-  ;; Tabs
+  ; Tabs
   "tn" 'elscreen-create
   "tc" 'elscreen-kill
 
-  ;; Helm
+  ; Helm
   "to" 'helm-mini
 
-  ;; Frames
+  ; Frames
   "fn" 'make-frame-command
   "fo" 'other-frame
 
-  ;; Evil-Numbers maps
+  ; Evil-Numbers maps
   "na" 'evil-numbers/inc-at-pt
   "nx" 'evil-numbers/dec-at-pt
 
-  ;; Highlight-symbol
+  ; Highlight-symbol
   "hs" 'auto-highlight-symbol-mode
 
-  ;; Rainbow-Mode
+  ; Rainbow-Mode
   "rr" 'rainbow-mode
 
-  ;; Undo-Tree
+  ; Undo-Tree
   "u" 'undo-tree-visualize
 
-  ;; Multiple-Cursors
+  ; Multiple-Cursors
   "cn" 'mc/mark-next-like-this
   "cp" 'mc/mark-previous-like-this
   "ca" 'mc/mark-all-like-this
   )
 
-;;; EVIL Bindings
+;; EVIL Bindings
 (evil-define-key 'normal emacs-lisp-mode-map (kbd "K") 'elisp-slime-nav-describe-elisp-thing-at-point)
+; Swap v and C-v, block-visual is much more useful
+(define-key evil-normal-state-map (kbd "v") 'evil-visual-block)
+(define-key evil-normal-state-map (kbd "C-v") 'evil-visual-char)
+; Set j/k to do gj/gk
+(define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+(define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+(define-key evil-normal-state-map (kbd "g j") 'evil-next-line)
+(define-key evil-normal-state-map (kbd "g k") 'evil-previous-line)
