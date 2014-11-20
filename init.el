@@ -52,8 +52,10 @@
 (add-hook 'after-init-hook 'global-hl-line-mode)
 
 ;; Frame Title
-;; CHANGEME: Someday
-(setq frame-title-format (concat "%b - emacs@" (system-name)))
+;; %@ -- @ if remote, - if local
+;; %b -- buffer name
+;; %* -- % if readonly, - if no change, * if modified
+(setq frame-title-format "%@%b%* - emacs")
 
 ;; Whitespace
 (add-hook 'after-init-hook 'global-whitespace-mode)
@@ -174,6 +176,7 @@
 (evil-leader/set-key
   ; Emacs Shortcuts
   "m" 'execute-extended-command
+  ";" 'eval-expression
   "hf" 'describe-function
   "hv" 'describe-variable
   "hk" 'describe-key
