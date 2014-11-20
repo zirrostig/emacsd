@@ -48,6 +48,7 @@
     multiple-cursors
     nyan-mode
     rainbow-delimiters
+    slime
     smart-mode-line
     undo-tree
     visual-regexp
