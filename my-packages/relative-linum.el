@@ -71,9 +71,9 @@
          (start-color (face-attribute 'relative-linum-face :foreground))
          (rgb (color-name-to-rgb start-color))
          (hsl (apply 'color-rgb-to-hsl rgb))
-         (end-luminance (max linum-min-luminance (- (nth 2 hsl) delta))))
+         (luminance (max linum-min-luminance (- (nth 2 hsl) delta))))
     (progn
-      (setcar (cddr hsl) end-luminance)
+      (setcar (cddr hsl) luminance)
       (apply 'color-rgb-to-hex (apply 'color-hsl-to-rgb hsl)))))
 
 (defun relative-linum (line-number)
