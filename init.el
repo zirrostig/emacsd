@@ -24,7 +24,7 @@
 ;;; Looks
 ;; Theme
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/tomorrow-theme")
-(add-to-list 'load-path "~/.emacs.d/themes/tomorrow-theme")(menu-bar-mode -1)
+(add-to-list 'load-path "~/.emacs.d/themes/tomorrow-theme")
 (load-theme 'tomorrow-night t)
 
 ;; Some Transparency (if compositing)
