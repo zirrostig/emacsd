@@ -18,42 +18,53 @@
 (package-initialize)
 
 (defvar my-packages
-  '(auctex
-    auto-complete
-    auto-complete-clang-async
-    auto-complete-c-headers
-    auto-highlight-symbol
-    color-identifiers-mode
-    company
-    company-c-headers
-    company-ghc
-    elisp-slime-nav
-    evil
-    evil-exchange
-    evil-leader
-    evil-matchit
-    evil-numbers
-    evil-org
-    evil-surround
-    evil-tabs
-    evil-visualstar
-    expand-region
-    flycheck
-    haskell-mode
-    helm
-    highlight-symbol
-    indent-guide
-    latex-preview-pane
-    markdown-mode
-    multiple-cursors
-    nyan-mode
-    rainbow-delimiters
-    slime
-    smart-mode-line
-    undo-tree
-    visual-regexp
-    visual-regexp-steroids
-    xclip)
+  '(aggressive-indent       ; Crazy alignment indent maintainer
+    auctex                  ; Best LaTeX
+    auto-highlight-symbol   ; Highlights what matches word under point
+    color-identifiers-mode  ; Variables look different
+    c-eldoc                 ; Edit C with the comfort emacs gives you with lisp
+    clean-aindent-mode      ; Mostly for the auto delete of WS due to auto-indent
+    company                 ; Auto-complete
+    company-c-headers       ; More Auto-complete
+    diminish                ; Reduced mode names
+    doc-view                ; pdfs in emacs makes LaTeX easier
+    evil                    ; VIM
+    evil-anzu               ; match counter
+    evil-exchange           ; Swap motions
+    evil-jumper             ; Jump list
+    evil-leader             ; Leader Commands
+    evil-matchit            ; Better % matches
+    evil-numbers            ; VIM's C-a, C-x commands
+    evil-nerd-commenter     ; Easy commenting of code
+    evil-org                ; Org-Mode with VIM
+    evil-paredit            ; Paredit fixer for evil
+    evil-surround           ; Change surrounding things like '([{<
+    evil-visualstar         ; Gives a better #* command
+    expand-region           ; Keep pressing the button to select more
+    fancy-narrow            ; Restrict your working domain
+    flycheck                ; On the fly syntax checker
+    function-args           ; Documentation on the arguments when you need it
+    golden-ratio            ; Resize splits to \phi
+    helm                    ; Fuzzy everything
+    helm-make               ; Choose what to build with helm
+    highlight-symbol        ; Show matches for word under point
+    indent-guide            ; Show indentation level
+    markdown-mode           ; Better editor for Markdown
+    multiple-cursors        ; Sublime?
+    nyan-mode               ; Rainbow based file position
+    org-bullets             ; utf-8 bullets in org-mode
+    popup                   ; Bubble info
+    popwin                  ; No more BS buffers
+    rainbow-delimiters      ; Colorize braces based on pairs
+    slime                   ; LISP
+    smart-mode-line         ; Clean up mode line so I don't have to
+    smart-tabs-mode         ; \t's to indent, ' ' to align
+    undo-tree               ; visualize and keep undo
+    vi-tilde-fringe         ; Tilde's are back
+    visual-regexp           ; makes :s better
+    visual-regexp-steroids  ; makes :s even better
+    ws-butler               ; Cleans trailing WS only on lines modified
+    xclip)                  ; integrate with Xclip
   "All of my favorite plugins.")
 
 (defun my-packages-installed-p ()
