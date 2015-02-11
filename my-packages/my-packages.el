@@ -21,21 +21,21 @@
   '(aggressive-indent       ; Crazy alignment indent maintainer
     auctex                  ; Best LaTeX
     auto-highlight-symbol   ; Highlights what matches word under point
-    color-identifiers-mode  ; Variables look different
     c-eldoc                 ; Edit C with the comfort emacs gives you with lisp
     clean-aindent-mode      ; Mostly for the auto delete of WS due to auto-indent
     company                 ; Auto-complete
     company-c-headers       ; More Auto-complete
-    diminish                ; Reduced mode names
+    delight                 ; Change major/minor mode display
     doc-view                ; pdfs in emacs makes LaTeX easier
+    esup                    ; Emacs Start-Up Profiler
     evil                    ; VIM
     evil-anzu               ; match counter
+    evil-commentary         ; TPope's commentary ported to evil
     evil-exchange           ; Swap motions
     evil-jumper             ; Jump list
     evil-leader             ; Leader Commands
     evil-matchit            ; Better % matches
     evil-numbers            ; VIM's C-a, C-x commands
-    evil-nerd-commenter     ; Easy commenting of code
     evil-org                ; Org-Mode with VIM
     evil-paredit            ; Paredit fixer for evil
     evil-surround           ; Change surrounding things like '([{<
@@ -56,6 +56,7 @@
     popup                   ; Bubble info
     popwin                  ; No more BS buffers
     rainbow-delimiters      ; Colorize braces based on pairs
+    rainbow-identifiers     ; Colorize variables based on hash
     slime                   ; LISP
     smart-mode-line         ; Clean up mode line so I don't have to
     smart-tabs-mode         ; \t's to indent, ' ' to align

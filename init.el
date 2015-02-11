@@ -12,49 +12,61 @@
 (require 'my-packages)
 (require 'c-style)
 
-;;; Theme
+;; Increase GC Threshold - Speeds up startup
+(setq-default gc-cons-threshold 10000000)
+
+;;; Theme and Looks
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/tomorrow-theme")
 (add-to-list 'load-path "~/.emacs.d/themes/tomorrow-theme")
 (load-theme 'tomorrow-night t)
+
 ;; Font
 (set-face-attribute 'default nil :font "Inconsolatazi4-12")
+
 ;; Transparency
 (set-frame-parameter (selected-frame) 'alpha '(85 85))
 (add-to-list 'default-frame-alist '(alpha 85 85))
+
 ;; Disable background color so transparency is nicer
 (defun on-after-init ()
   (unless (display-graphic-p (selected-frame))
     (set-face-background 'default "unspecified-bg" (selected-frame))))
 (add-hook 'window-setup-hook 'on-after-init)
+
 ;; Highlight current line
 (add-hook 'after-init-hook 'global-hl-line-mode)
 
-;;; Change starting modes
+
+;;; Basic Stuff
+;; Make yes or no prompts be y or n prompts
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Disable menu-bars, scroll-bars, and other nonsense
 (menu-bar-mode -1)t
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+
+;; Show what column I'm in
 (column-number-mode t)
-(show-paren-mode t)
+
+;; Useful Mouse
 (xterm-mouse-mode t)
 
-(setq-default inhibit-startup-message    t
-	      make-backup-files          nil
-	      vc-follow-symlinks         t
-	      frame-title-format         "%@%b%* - emacs"
-	      gdb-many-windows           t
+;; Show Matching parens
+(setq show-paren-delay 0) ; Quickly
+(show-paren-mode t)
+
+(setq-default inhibit-startup-message    t                 ; I hate the startup message
+	      make-backup-files          nil               ; I hate these more
+	      vc-follow-symlinks         t                 ; Why would you not do this?
+	      frame-title-format         "%@%b%* - emacs"  ; Useful window title
+	      gdb-many-windows           t                 ; GDB Mode is Awesome
 	      diff-switches              "-u"
+	      mouse-autoselect-window    t                 ; Focus follows mouse is the only true way
 
 	      scroll-step                10
-	      cua-mode                   nil
+	      cua-mode                   nil               ; C-c,v,x is for the un-enlightened
 	      cua-auto-tabify-rectangles nil)
-
-;; Whitespace
-(add-hook 'after-init-hook 'global-whitespace-mode)
-(setq whitespace-style (list 'face 'trailing))
-
-;; (Relative) Line Numbers
-(require 'relative-linum)
-(global-linum-mode t)
 
 ;;; Plugins
 ;; Aggressive Indent Mode
@@ -64,20 +76,25 @@
 ;; Auctex
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
-;;(setq-default TeX-master nil)
 
 ;; Clean AIndent Mode
 (add-hook 'prog-mode-hook 'clean-aindent-mode)
 
-;; Color-identifiers
-(setq color-identifiers:num-colors 50)
-(add-hook 'prog-mode-hook 'global-color-identifiers-mode)
-
 ;; Company
 (add-hook 'after-init-hook 'global-company-mode)
 
-;; Diminished
-(eval-after-load "filladapt" '(diminish 'filladapt-mode))
+;; Delight
+(delight '((abbrev-mode)
+	   (aggressive-indent-mode "" aggressive-indent)
+	   (color-identifiers-mode)
+	   (company-mode " C" company)
+	   (flycheck-mode " Fly" flycheck)
+	   (golden-ratio-mode "" golden-ratio)
+	   (helm-mode " H" helm-mode)
+	   (undo-tree-mode " UT" undo-tree)
+	   (vi-tilde-fringe-mode "" vi-tilde-fringe)
+	   (global-whitespace-mode "" whitespace)
+	   ))
 
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -112,15 +129,22 @@
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 (helm-mode 1)
 
+;; (Relative) Line Numbers
+(require 'relative-linum)
+(global-linum-mode t)
+
 ;; Nyan Mode
-(nyan-mode 1)
-(nyan-start-animation)
+;;(nyan-mode 1)
+;;(nyan-start-animation)
 
 ;; Org-Bullets
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 ;; Rainbow-delimiters
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+;; Rainbow-identifiers
+(add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
 
 ;; Semantic
 (semantic-mode t)
@@ -137,14 +161,17 @@
 ;; VI Fringe Tilde
 (global-vi-tilde-fringe-mode t)
 
+;; Whitespace
+(add-hook 'after-init-hook 'global-whitespace-mode)
+(setq whitespace-style (list 'face 'trailing))
+
 ;; WS Butler
 (add-hook 'c-mode-common-hook 'ws-butler-mode)
-
 
 ;;; C/C++
 (defun my:c/c++-hook ()
   (setq my-c-include-paths (split-string
-                            "/usr/include/ImageMagick-6
+			    "/usr/include/ImageMagick-6
                            /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/include
                            /usr/local/include
                            /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/include-fixed
@@ -175,8 +202,8 @@
 ;;; EVIL Stuff
 (evil-mode 1)
 
-;; Evil-Nerd-Commenter
-(setq evilnc-hotkey-comment-operator "gc")
+;; Evil-Commentary
+(evil-commentary-mode)
 
 ;; Evil-Matchit
 (global-evil-matchit-mode 1)
@@ -252,7 +279,7 @@
   )
 
 ;; EVIL Bindings
-; Swap v and C-v, block-visual is much more useful
+					; Swap v and C-v, block-visual is much more useful
 (define-key evil-normal-state-map (kbd "v") 'evil-visual-block)
 (define-key evil-normal-state-map (kbd "C-v") 'evil-visual-char)
 ;; Set j/k to do gj/gk
