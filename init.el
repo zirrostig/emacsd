@@ -192,6 +192,12 @@
 ;; WS Butler
 (add-hook 'c-mode-common-hook 'ws-butler-mode)
 
+;; VB/VBNet-Mode
+(autoload 'visual-basic-mode "visual-basic-mode" "Mode for editing Visual Basic code." t)
+(autoload 'vbnet-mode "vbnet-mode" "Mode for editing VB.NET code." t)
+(setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vb\\)$" .
+                                 vbnet-mode)) auto-mode-alist))
+
 ;;; C/C++
 (defun my:c/c++-hook ()
   (setq my-c-include-paths (split-string
