@@ -53,6 +53,7 @@
     multiple-cursors        ; Sublime?
     nyan-mode               ; Rainbow based file position
     org-bullets             ; utf-8 bullets in org-mode
+    org-plus-contrib        ; lots of extra org-mode stuff
     popup                   ; Bubble info
     popwin                  ; No more BS buffers
     rainbow-delimiters      ; Colorize braces based on pairs

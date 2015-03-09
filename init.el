@@ -36,7 +36,6 @@
 ;; Highlight current line
 (add-hook 'after-init-hook 'global-hl-line-mode)
 
-
 ;;; Basic Stuff
 ;; Make yes or no prompts be y or n prompts
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -68,6 +67,28 @@
 	      cua-mode                   nil               ; C-c,v,x is for the un-enlightened
 	      cua-auto-tabify-rectangles nil)
 
+;; Auto indent
+(define-key global-map (kbd "RET") 'newline-and-indent)
+
+;;; Org-Mode Stuff
+(setq org-agenda-files (list "~/org/school/math332.org"
+			     "~/org/school/math458.org"
+			     "~/org/school/csci562.org"
+			     "~/org/school/csci474.org"))
+;; Syntax Highlight Source blocks
+(setq org-src-fontify-natively t)
+
+;; http://orgmode.org/worg/org-contrib/org-collector.html
+(require 'org-collector)
+
+;; Adds links to man pages through C-c C-l
+(require 'org-man)
+
+;; http://orgmode.org/worg/org-contrib/org-wikinodes.html
+(require 'org-wikinodes)
+
+
+
 ;;; Plugins
 ;; Aggressive Indent Mode
 (global-aggressive-indent-mode 1)
@@ -78,7 +99,10 @@
 (setq TeX-parse-self t)
 
 ;; Clean AIndent Mode
-(add-hook 'prog-mode-hook 'clean-aindent-mode)
+(set 'clean-aindent-is-simple-indent t)
+;; (add-hook 'prog-mode-hook 'clean-aindent-mode)
+
+
 
 ;; Company
 (add-hook 'after-init-hook 'global-company-mode)
@@ -201,7 +225,6 @@
 
 ;;; EVIL Stuff
 (evil-mode 1)
-
 ;; Evil-Commentary
 (evil-commentary-mode)
 
@@ -279,7 +302,7 @@
   )
 
 ;; EVIL Bindings
-					; Swap v and C-v, block-visual is much more useful
+;; Swap v and C-v, block-visual is much more useful
 (define-key evil-normal-state-map (kbd "v") 'evil-visual-block)
 (define-key evil-normal-state-map (kbd "C-v") 'evil-visual-char)
 ;; Set j/k to do gj/gk
