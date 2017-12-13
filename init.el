@@ -4,6 +4,13 @@
 ;;; Code:
 
 ;; Customize BS
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
@@ -21,7 +28,7 @@
 (load-theme 'tomorrow-night t)
 
 ;; Font
-(set-face-attribute 'default nil :font "Inconsolatazi4-12")
+(set-face-attribute 'default nil :font "Inconsolata-10")
 
 ;; Transparency
 (set-frame-parameter (selected-frame) 'alpha '(85 85))
@@ -32,9 +39,6 @@
   (unless (display-graphic-p (selected-frame))
     (set-face-background 'default "unspecified-bg" (selected-frame))))
 (add-hook 'window-setup-hook 'on-after-init)
-
-;; Highlight current line
-(add-hook 'after-init-hook 'global-hl-line-mode)
 
 ;;; Basic Stuff
 ;; Make yes or no prompts be y or n prompts
@@ -61,8 +65,6 @@
 	      frame-title-format         "%@%b%* - emacs"  ; Useful window title
 	      gdb-many-windows           t                 ; GDB Mode is Awesome
 	      diff-switches              "-u"
-	      mouse-autoselect-window    t                 ; Focus follows mouse is the only true way
-
 	      scroll-step                10
 	      cua-mode                   nil               ; C-c,v,x is for the un-enlightened
 	      cua-auto-tabify-rectangles nil)
@@ -71,10 +73,6 @@
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
 ;;; Org-Mode Stuff
-(setq org-agenda-files (list "~/org/school/math332.org"
-			     "~/org/school/math458.org"
-			     "~/org/school/csci562.org"
-			     "~/org/school/csci474.org"))
 ;; Syntax Highlight Source blocks
 (setq org-src-fontify-natively t)
 
@@ -86,8 +84,6 @@
 
 ;; http://orgmode.org/worg/org-contrib/org-wikinodes.html
 (require 'org-wikinodes)
-
-
 
 ;;; Plugins
 ;; Aggressive Indent Mode
@@ -102,8 +98,6 @@
 (set 'clean-aindent-is-simple-indent t)
 ;; (add-hook 'prog-mode-hook 'clean-aindent-mode)
 
-
-
 ;; Company
 (add-hook 'after-init-hook 'global-company-mode)
 
@@ -113,8 +107,6 @@
 	   (color-identifiers-mode)
 	   (company-mode " C" company)
 	   (flycheck-mode " Fly" flycheck)
-	   (golden-ratio-mode "" golden-ratio)
-	   (helm-mode " H" helm-mode)
 	   (undo-tree-mode " UT" undo-tree)
 	   (vi-tilde-fringe-mode "" vi-tilde-fringe)
 	   (global-whitespace-mode "" whitespace)
@@ -130,36 +122,9 @@
 ;; Indent-guide
 (indent-guide-global-mode)
 
-;; Golden-ratio
-(golden-ratio-mode 1)
-
-(defun pl/helm-alive-p ()
-  (if (boundp 'helm-alive-p)
-      (symbol-value 'helm-alive-p)))
-
-(add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
-
-;; Helm
-(setq-default helm-move-to-line-cycle-in-source t
-	      helm-autoresize-max-height 50
-	      helm-autoresize-min-height 20
-	      helm-buffers-fuzzy-matching t
-	      helm-recentf-fuzzy-match t
-	      )
-(helm-autoresize-mode t)
-(global-set-key (kbd "C-x C-f") 'helm-find-files) ; Replace default file-finder
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
-(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-(helm-mode 1)
-
 ;; (Relative) Line Numbers
 (require 'relative-linum)
 (global-linum-mode t)
-
-;; Nyan Mode
-;;(nyan-mode 1)
-;;(nyan-start-animation)
 
 ;; Org-Bullets
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -178,6 +143,12 @@
 (global-semantic-stickyfunc-mode t)
 (semantic-add-system-include "/usr/include")
 
+;; Slime
+(load (expand-file-name "~/.quicklisp/slime-helper.el"))
+(require 'slime-autoloads)
+(setq inferior-lisp-program "sbcl")
+(add-to-list 'slime-contribs 'slime-fancy)
+
 ;; Smart-mode-line
 (sml/setup)
 (sml/apply-theme 'dark)
@@ -192,20 +163,11 @@
 ;; WS Butler
 (add-hook 'c-mode-common-hook 'ws-butler-mode)
 
-;; VB/VBNet-Mode
-(autoload 'visual-basic-mode "visual-basic-mode" "Mode for editing Visual Basic code." t)
-(autoload 'vbnet-mode "vbnet-mode" "Mode for editing VB.NET code." t)
-(setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vb\\)$" .
-                                 vbnet-mode)) auto-mode-alist))
-
 ;;; C/C++
 (defun my:c/c++-hook ()
   (setq my-c-include-paths (split-string
-			    "/usr/include/ImageMagick-6
-                           /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/include
-                           /usr/local/include
-                           /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.2/include-fixed
-                           /usr/include"))
+			    "/usr/local/include
+                             /usr/include"))
   (setq c-default-style "bsd-knf"
 	c-basic-offset 4
 	whitespace-style (list 'face 'trailing)
@@ -217,7 +179,6 @@
 
   ;; Company additions that are c/c++ mode specific
   (add-to-list 'company-backends 'company-c-headers)
-  (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.9.2/") ; Will have to change when g++ updates
   (define-key c-mode-map [(tab)] 'company-complete)
   (define-key c++-mode-map [(tab)] 'company-complete)
   )
@@ -254,26 +215,13 @@
   "hv" 'describe-variable
   "hk" 'describe-key
 
-  ;; Search
-  "hf" 'helm-apropos
-  "hg" 'helm-google-suggest
-  "hl" 'helm-locate
-  "hs" 'helm-surfraw ; For everything else
-
   ;; Highlight-symbol
   "hs" 'auto-highlight-symbol-mode
-
-  ;; Make
-  "b" 'helm-make
 
   ;; Multiple-Cursors
   "cn" 'mc/mark-next-like-this
   "cp" 'mc/mark-previous-like-this
   "ca" 'mc/mark-all-like-this
-
-  ;; Frames
-  "fn" 'make-frame-command
-  "fo" 'other-frame
 
   ;; Buffer/File operations
   "fs" 'whitespace-cleanup
@@ -292,9 +240,6 @@
   "sh" 'evil-window-split
   "sc" 'evil-quit
   "so" 'delete-other-windows
-
-  ;; Helm-mini
-  "to" 'helm-mini
 
   ;; Window Controls
   "ww" 'evil-window-next
@@ -316,9 +261,6 @@
 (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 (define-key evil-normal-state-map (kbd "g j") 'evil-next-line)
 (define-key evil-normal-state-map (kbd "g k") 'evil-previous-line)
-;; Make arrow keys useful
-(define-key evil-normal-state-map (kbd "<up>") 'previous-buffer)
-(define-key evil-normal-state-map (kbd "<down>") 'next-buffer)
 ;; Function args
 (define-key evil-insert-state-map (kbd "C-h") 'moo-complete)
 

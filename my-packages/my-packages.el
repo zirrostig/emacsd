@@ -32,11 +32,9 @@
     evil-anzu               ; match counter
     evil-commentary         ; TPope's commentary ported to evil
     evil-exchange           ; Swap motions
-    evil-jumper             ; Jump list
     evil-leader             ; Leader Commands
     evil-matchit            ; Better % matches
     evil-numbers            ; VIM's C-a, C-x commands
-    evil-org                ; Org-Mode with VIM
     evil-paredit            ; Paredit fixer for evil
     evil-surround           ; Change surrounding things like '([{<
     evil-visualstar         ; Gives a better #* command
@@ -45,14 +43,12 @@
     flycheck                ; On the fly syntax checker
     function-args           ; Documentation on the arguments when you need it
     golden-ratio            ; Resize splits to \phi
-    helm                    ; Fuzzy everything
-    helm-make               ; Choose what to build with helm
     highlight-symbol        ; Show matches for word under point
     indent-guide            ; Show indentation level
     markdown-mode           ; Better editor for Markdown
     multiple-cursors        ; Sublime?
-    nyan-mode               ; Rainbow based file position
     org-bullets             ; utf-8 bullets in org-mode
+    org-evil                ; Org-Mode with VIM
     org-plus-contrib        ; lots of extra org-mode stuff
     popup                   ; Bubble info
     popwin                  ; No more BS buffers
