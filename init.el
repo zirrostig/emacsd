@@ -28,7 +28,7 @@
 (load-theme 'tomorrow-night t)
 
 ;; Font
-(set-face-attribute 'default nil :font "Inconsolata-10")
+(set-face-attribute 'default nil :font "Iosevka Type Light-9")
 
 ;; Transparency
 (set-frame-parameter (selected-frame) 'alpha '(85 85))
@@ -45,7 +45,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Disable menu-bars, scroll-bars, and other nonsense
-(menu-bar-mode -1)t
+(menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
@@ -103,21 +103,36 @@
 
 ;; Delight
 (delight '((abbrev-mode)
+	   (evil-commentary-mode "" evil-commentary)
 	   (aggressive-indent-mode "" aggressive-indent)
-	   (color-identifiers-mode)
-	   (company-mode " C" company)
-	   (flycheck-mode " Fly" flycheck)
-	   (undo-tree-mode " UT" undo-tree)
-	   (vi-tilde-fringe-mode "" vi-tilde-fringe)
+	   (color-identifiers-mode "" rainbow-identifiers)
+	   (company-mode "" company)
+	   (flycheck-mode "" flycheck)
+	   (helm-mode "")
+	   (indent-guide-mode " »|" indent-guide)
+	   (projectile-mode "" projectile)
+	   (projectile-rails-mode " RoR" projectile-rails)
 	   (global-whitespace-mode "" whitespace)
+	   (subword-mode " -,_" subword)
+	   (undo-tree-mode "" undo-tree)
+	   (vi-tilde-fringe-mode "" vi-tilde-fringe)
+	   (ws-butler-mode "" ws-butler)
 	   ))
 
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
+(setq-default flycheck-disabled-checkers '(ruby-reek))
+;; flycheck-rubocoprc (concat (file-name-as-directory (ignore-errors projectile-project-root)) ".rubocop.yml")
 
 ;; Function Args
 (fa-config-default)
 (set-default 'semantic-case-fold t)
+
+;; Helm
+(helm-mode 1)
+(setq helm-autoresize-mode t)
+(setq helm-buffer-max-length 40)
+(global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Indent-guide
 (indent-guide-global-mode)
@@ -128,6 +143,9 @@
 
 ;; Org-Bullets
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+;; Projectile
+(projectile-mode +1)
 
 ;; Rainbow-delimiters
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
@@ -143,12 +161,6 @@
 (global-semantic-stickyfunc-mode t)
 (semantic-add-system-include "/usr/include")
 
-;; Slime
-(load (expand-file-name "~/.quicklisp/slime-helper.el"))
-(require 'slime-autoloads)
-(setq inferior-lisp-program "sbcl")
-(add-to-list 'slime-contribs 'slime-fancy)
-
 ;; Smart-mode-line
 (sml/setup)
 (sml/apply-theme 'dark)
@@ -161,7 +173,7 @@
 (setq whitespace-style (list 'face 'trailing))
 
 ;; WS Butler
-(add-hook 'c-mode-common-hook 'ws-butler-mode)
+(add-hook 'prog-mode-hook 'ws-butler-mode)
 
 ;;; C/C++
 (defun my:c/c++-hook ()
@@ -185,13 +197,32 @@
 (add-hook 'c-mode-hook 'my:c/c++-hook)
 
 ;;; Lisps
-(defun my-lisp-hook()
+;; ELisp
+(defun my-elisp-hook()
   (turn-on-eldoc-mode)
   )
-(add-hook 'emacs-lisp-mode-hook 'my-lisp-hook)
+(add-hook 'emacs-lisp-mode-hook 'my-elisp-hook)
+
+(setq inferior-lisp-program "sbcl")
+
+;; Sly
+(setq sly-complete-symbol-function 'sly-flex-completions)
+
+;;; Ruby
+(defun my:ruby-hook ()
+  (inf-ruby-minor-mode +1)
+  (projectile-rails-mode)
+  (subword-mode +1))
+(add-hook 'ruby-mode-hook 'my:ruby-hook)
 
 ;;; EVIL Stuff
+(setq evil-want-integration t) ;; Needed for evil-collection
+(setq evil-want-keybinding nil) ;; Needed for evil-collection
 (evil-mode 1)
+
+;; Evil-Collection
+(evil-collection-init)
+
 ;; Evil-Commentary
 (evil-commentary-mode)
 
@@ -225,6 +256,7 @@
 
   ;; Buffer/File operations
   "fs" 'whitespace-cleanup
+  "t" projectile-command-map
 
   ;; Evil-Numbers maps
   "na" 'evil-numbers/inc-at-pt

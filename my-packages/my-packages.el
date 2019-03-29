@@ -29,13 +29,16 @@
     doc-view                ; pdfs in emacs makes LaTeX easier
     esup                    ; Emacs Start-Up Profiler
     evil                    ; VIM
+    evil-args               ; argument motions
     evil-anzu               ; match counter
+    evil-collection         ; key maps for basically every mode
     evil-commentary         ; TPope's commentary ported to evil
     evil-exchange           ; Swap motions
     evil-leader             ; Leader Commands
     evil-matchit            ; Better % matches
     evil-numbers            ; VIM's C-a, C-x commands
     evil-paredit            ; Paredit fixer for evil
+    evil-rails              ; Rails.vim
     evil-surround           ; Change surrounding things like '([{<
     evil-visualstar         ; Gives a better #* command
     expand-region           ; Keep pressing the button to select more
@@ -43,6 +46,7 @@
     flycheck                ; On the fly syntax checker
     function-args           ; Documentation on the arguments when you need it
     golden-ratio            ; Resize splits to \phi
+    helm                    ; Fuzzy everything
     highlight-symbol        ; Show matches for word under point
     indent-guide            ; Show indentation level
     markdown-mode           ; Better editor for Markdown
@@ -52,9 +56,10 @@
     org-plus-contrib        ; lots of extra org-mode stuff
     popup                   ; Bubble info
     popwin                  ; No more BS buffers
+    projectile              ; Project navigation
     rainbow-delimiters      ; Colorize braces based on pairs
     rainbow-identifiers     ; Colorize variables based on hash
-    slime                   ; LISP
+    sly			    ; LISP - Better SLIME
     smart-mode-line         ; Clean up mode line so I don't have to
     smart-tabs-mode         ; \t's to indent, ' ' to align
     undo-tree               ; visualize and keep undo
